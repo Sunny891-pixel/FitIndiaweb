@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthy India 8.0 - Group Duel</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+body{background:#fff7f0;color:#1a1a1a;padding-bottom:92px}
+nav{padding:12px 5%;display:flex;justify-content:space-between;align-items:center;background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 20px rgba(0,0,0,.07);flex-wrap:wrap;gap:9px}
+nav b{font-size:22px;cursor:pointer} nav b span{color:#ff4d8d}
+.navlinks{display:flex;gap:6px;flex-wrap:wrap}
+.navlinks button{padding:8px 12px;border:none;border-radius:20px;background:#fff2f6;font-weight:700;cursor:pointer;font-size:13px}
+.navlinks button.active{background:#ff4d8d;color:#fff}
+.sbox{display:flex;gap:6px;flex:1;min-width:160px;max-width:300px}
+.sbox input{flex:1;padding:9px 13px;border:1.5px solid #ffd0de;border-radius:20px;outline:none}
+.sbox button{padding:9px 13px;background:#111;color:#fff;border:none;border-radius:20px;cursor:pointer}
+.page{display:none;padding:22px 5%}
+.page.active{display:block}
+.hero{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.left{flex:1;min-width:310px}
+.left h1{font-size:46px;line-height:.95;letter-spacing:-2px}
+.left h1 span{color:#ff4d8d}
+.left p{color:#666;margin:11px 0;line-height:1.6}
+.card3d{flex:1;min-width:340px;height:590px;background:linear-gradient(180deg,#fff,#ffeef4);border-radius:28px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(255,77,141,.18)}
+#c,#c2{width:100%;height:100%;display:block}
+.badge{position:absolute;top:13px;left:13px;background:#111;color:#fff;padding:8px 12px;border-radius:20px;font-size:12px;z-index:3}
+.stepBadge{position:absolute;top:13px;right:13px;background:#ff4d8d;color:#fff;padding:8px 11px;border-radius:20px;font-size:12px;font-weight:800;z-index:3}
+.ctrl{position:absolute;bottom:9px;left:9px;right:9px;background:rgba(255,255,255,.97);padding:10px;border-radius:18px;z-index:3;max-height:210px;overflow-y:auto}
+.exbtn{padding:7px 10px;border:1px solid #eee;background:#fff;border-radius:20px;cursor:pointer;font-size:12px;margin:3px 2px 0 0}
+.exbtn.active{background:#ff4d8d;color:#fff}
+.stepBtn{padding:9px 10px;border:none;border-radius:12px;font-weight:800;cursor:pointer;margin:5px 3px 0 0;font-size:12px}
+.stepBtn.pink{background:#ff4d8d;color:#fff} .stepBtn.dark{background:#111;color:#fff} .stepBtn.grey{background:#eee} .stepBtn.green{background:#00c853;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px;margin-top:15px}
+.box{background:#fff;padding:19px;border-radius:22px;box-shadow:0 8px 25px rgba(0,0,0,.05)}
+.input,.select{width:100%;padding:11px;border:1.5px solid #eee;border-radius:12px;margin:6px 0;background:#fafafa}
+label{font-size:13px;font-weight:700;color:#555}
+.btn{width:100%;padding:13px;background:#111;color:#fff;border:none;border-radius:14px;font-weight:800;cursor:pointer;margin-top:9px}
+.btn.pink{background:#ff4d8d} .btn.green{background:#00c853}
+.result{background:#111;color:#fff;padding:16px;border-radius:18px;margin-top:11px;line-height:1.7;text-align:center}
+.chip{display:inline-block;padding:7px 11px;border-radius:20px;background:#fff2f6;border:1.5px solid #ffd0de;margin:3px;cursor:pointer;font-size:13px;font-weight:600}
+.chip.active{background:#ff4d8d;color:#fff}
+.varcard{display:flex;gap:10px;align-items:center;background:#fff;padding:10px;border-radius:15px;margin-bottom:8px;cursor:pointer;border:2px solid #f0f0f0}
+.varcard.active{border-color:#ff4d8d;background:#fff5f8}
+.dot{width:44px;height:44px;background:#ffe6ef;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 7px;border-bottom:1px solid #eee;text-align:left}
+th{background:#fff2f6}
+.tag{font-size:11px;background:#e8fff0;color:#0a7a3a;padding:4px 8px;border-radius:10px;font-weight:700}
+.compareWrap{display:flex;flex-wrap:wrap;gap:14px}
+.compareBox{flex:1;min-width:320px;height:500px;border-radius:26px;position:relative;overflow:hidden;background:#000}
+.compareBox.pinkBg{background:linear-gradient(180deg,#fff,#ffeef4)}
+.compareBox video,.compareBox canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.compareBox .overlayCanvas{z-index:2}
+.compareLabel{position:absolute;top:12px;left:12px;background:#111;color:#fff;padding:8px 13px;border-radius:20px;font-size:12px;font-weight:700;z-index:5}
+.compareLabel.pink{background:#ff4d8d}
+.voiceBar{background:#111;color:#fff;padding:13px;border-radius:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.challengeCard{background:linear-gradient(135deg,#ff4d8d,#ff9a3d);color:#fff;padding:20px;border-radius:24px}
+.progressBar{height:14px;background:rgba(255,255,255,.35);border-radius:20px;overflow:hidden;margin:12px 0}
+.progressFill{height:100%;background:#fff;width:0%;border-radius:20px;transition:width .5s}
+.taskRow{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.18);padding:11px 13px;border-radius:14px;margin-top:8px}
+.taskRow.done{background:#00c853}
+.streakRow{display:flex;gap:7px;margin-top:12px}
+.streakDay{flex:1;text-align:center;background:rgba(255,255,255,.2);padding:9px 4px;border-radius:12px;font-size:12px}
+.streakDay.done{background:#fff;color:#ff4d8d;font-weight:900}
+.duelCard{background:linear-gradient(135deg,#111,#3a1a5e);color:#fff;padding:22px;border-radius:26px}
+.groupCard{background:linear-gradient(135deg,#7b2fff,#ff4d8d,#ff9a3d);color:#fff;padding:22px;border-radius:26px}
+.vsBox{display:flex;align-items:center;gap:12px;margin:14px 0;flex-wrap:wrap}
+.vsPlayer{flex:1;min-width:130px;text-align:center;background:rgba(255,255,255,.12);padding:16px 8px;border-radius:18px}
+.vsPlayer.lead{border:3px solid #00ff88;background:rgba(0,255,136,.15)}
+.vsScore{font-size:44px;font-weight:900}
+.timerBig{font-size:52px;font-weight:900;text-align:center;color:#ffcc00}
+.roomCode{font-size:26px;font-weight:900;letter-spacing:3px;background:#fff;color:#111;padding:10px 18px;border-radius:14px;display:inline-block}
+.playerChip{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.2);padding:11px 13px;border-radius:14px;margin-top:8px}
+.groupPlayer{flex:1;min-width:140px;text-align:center;padding:15px 8px;border-radius:18px;color:#fff}
+.groupBar{height:11px;background:rgba(255,255,255,.3);border-radius:20px;overflow:hidden;margin-top:8px}
+.groupBar div{height:100%;transition:width .4s}
+.podium{display:flex;gap:8px;align-items:flex-end;margin-top:14px}
+.podiumBox{flex:1;text-align:center;border-radius:16px;padding:12px 6px;color:#111}
+.musicBar{position:fixed;bottom:0;left:0;right:0;background:#111;color:#fff;z-index:100;padding:10px 5%;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.musicBar button{padding:9px 13px;border:none;border-radius:20px;font-weight:800;cursor:pointer;font-size:13px}
+.musicBar select{padding:8px;border-radius:20px;border:none}
+.musicBar input[type=range]{width:80px;accent-color:#ff4d8d}
+.beatDot{width:14px;height:14px;background:#00ff88;border-radius:50%}
+.beatDot.on{animation:beat .5s infinite alternate}
+@keyframes beat{from{transform:scale(1)}to{transform:scale(1.5);background:#ff4d8d}}
+.profileHead{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,#ff4d8d,#ff8fb5);color:#fff;padding:20px;border-radius:24px}
+.avatar{width:74px;height:74px;background:#fff;color:#ff4d8d;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:33px;font-weight:900;flex-shrink:0}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:200;display:none;font-size:28px;text-align:center;padding-top:80px}
+.tabBtn{padding:10px 16px;border:none;border-radius:20px;font-weight:800;cursor:pointer;background:#fff;color:#111}
+.tabBtn.active{background:#ff4d8d;color:#fff}
+</style>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+</head>
+<body>
+<div class="confetti" id="confetti">🎉🎉🎉<br><b style="color:#ff4d8d;background:#fff;padding:10px 18px;border-radius:20px" id="confettiText">WINNER!</b><br>🎊🏆🎊</div>
+
+<nav>
+<b onclick="showPage('home')">Healthy <span>India 🇮🇳 8.0</span></b>
+<div class="sbox"><input id="searchInput" placeholder="🔍 Search..." oninput="doSearch(this.value)"><button onclick="doSearch(document.getElementById('searchInput').value)">Search</button></div>
+<div class="navlinks">
+<button class="active" onclick="showPage('home',this)">🏠 Home</button>
+<button onclick="showPage('duelPage',this)">⚔️ Duel / Group</button>
+<button onclick="showPage('cameraPage',this)">📷 Camera</button>
+<button onclick="showPage('searchPage',this)">🔍 Search</button>
+<button onclick="showPage('profile',this)">👤 Profile</button>
+<button onclick="showPage('about',this)">ℹ️ About</button>
+</div>
+</nav>
+
+<div class="voiceBar" style="margin:14px 5% 0">
+<div>🔊 <b>Didi:</b> <span id="voiceText">Didi bolegi</span> &nbsp;|&nbsp; 🏆 Streak: <span id="topStreak">0</span> &nbsp;|&nbsp; ⭐ Points: <span id="topPoints">0</span> &nbsp;|&nbsp; 👑 Group Jeet: <span id="topWins">0</span></div>
+<div style="display:flex;gap:7px"><button class="stepBtn green" id="voiceBtn" onclick="toggleVoice()">🔊 Awaaz: ON</button><button class="stepBtn grey" style="background:#fff;color:#111" onclick="speakDidi('Pura group aa gaya! Aaj group duel hoga, jo jeetegi wo group queen banegi!')">🔊 Test</button></div>
+</div>
+
+<div id="home" class="page active">
+<div class="challengeCard">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><small>📅 <span id="todayDate"></span></small><h2 style="font-size:24px">🏆 Aaj Ka Daily Challenge</h2><p id="challengeTitle" style="margin-top:4px">20 Squats + 30 Sec Plank</p></div><div style="text-align:right"><div style="font-size:32px" id="challengeBadge">🎯</div><small>Reward: 50 Points</small></div></div>
+<div class="progressBar"><div class="progressFill" id="challengeFill"></div></div>
+<p style="font-size:14px"><b id="challengePercent">0% Complete</b></p>
+<div id="challengeTasks"></div>
+<div class="streakRow" id="streakRow"></div>
+</div>
+
+<div class="groupCard" style="margin-top:15px">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><h2 style="font-size:25px">👯‍♀️👯‍♀️ GROUP DUEL - Pura Group Ek Sath!</h2><p style="color:#ffe;margin-top:6px;line-height:1.6">3, 4 ya 5 dost ek sath. 90 second war. Jo sabse jyada karegi wo <b>Group Queen 👑</b>. Baaki sab usko chai pilayenge ☕</p></div><div style="font-size:44px">👑⚔️</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+<button class="stepBtn" style="background:#fff;color:#ff4d8d" onclick="showPage('duelPage');switchDuelTab('group')">👥 Group Duel Khol Do</button>
+<button class="stepBtn green" onclick="quickGroupDuel()">🎲 Turant Group Banao - Priya, Ritu, Neha, Pooja</button>
+</div>
+<p style="font-size:13px;color:#ffe;margin-top:8px">Pichhla Group Duel: <span id="lastGroupText">Abhi koi group duel nahi. Aaj hi pehla khelo.</span></p>
+</div>
+
+<div class="hero" style="margin-top:18px">
+<div class="left">
+<h1>Namaste <span id="helloName">Didi</span>,<br><span>Group Queen Bano</span></h1>
+<p>Akeli, dost ke sath, aur ab pure group ke sath. Music, didi ki awaaz, camera stick, sab kuch ek jagah.</p>
+<button class="btn green" onclick="showPage('duelPage');switchDuelTab('group');speakDidi('Chalo pura group bulao, aaj group duel hoga!')">👥 Group Duel Me Jao</button>
+<div style="margin-top:13px"><label>Body Type:</label><br>
+<span class="chip active" onclick="setBody('Ectomorph',this)">🦋 Ectomorph</span>
+<span class="chip" onclick="setBody('Mesomorph',this)">💪 Mesomorph</span>
+<span class="chip" onclick="setBody('Endomorph',this)">🌸 Endomorph</span>
+<p id="bodyInfo" style="margin-top:10px;background:#fff;padding:11px;border-radius:12px;font-size:14px">🦋 <b>Ectomorph:</b> Jyada khana, 3 din heavy workout.</p></div>
+</div>
+<div class="card3d">
+<div class="badge">🔴 LIVE 3D - <span id="liveName">Squats</span></div>
+<div class="stepBadge" id="stepBadge">STEP 1 / 4</div>
+<canvas id="c"></canvas>
+<div class="ctrl">
+<b id="ctrlTitle">Squats - Normal Squats</b><br><small id="ctrlDesc" style="color:#666">Step 1: Pair kandhe jitne kholo.</small>
+<div>
+<button class="stepBtn pink" onclick="setStep(1)">1️⃣ Ready</button>
+<button class="stepBtn dark" onclick="setStep(2)">2️⃣ Neeche</button>
+<button class="stepBtn dark" onclick="setStep(3)">3️⃣ Hold</button>
+<button class="stepBtn dark" onclick="setStep(4)">4️⃣ Upar</button>
+<button class="stepBtn grey" onclick="togglePlay()" id="playBtn">▶️ Auto Play</button>
+<button class="stepBtn grey" onclick="toggleSlow()" id="slowBtn">🐢 Slow: OFF</button>
+<button class="stepBtn green" onclick="speakCurrentStep()">🔊 Suno</button>
+</div>
+<div>
+<button class="exbtn active" onclick="playEx('squat',this)">Squats</button>
+<button class="exbtn" onclick="playEx('pushup',this)">Push-Ups</button>
+<button class="exbtn" onclick="playEx('plank',this)">Plank</button>
+<button class="exbtn" onclick="playEx('lunge',this)">Lunges</button>
+<button class="exbtn" onclick="playEx('jacks',this)">Jumping Jacks</button>
+<button class="exbtn" onclick="playEx('bridge',this)">Glute Bridge</button>
+<button class="exbtn" onclick="playEx('crunch',this)">Crunches</button>
+<button class="exbtn" onclick="playEx('yoga',this)">🧘 Yoga</button>
+</div>
+</div>
+</div>
+</div>
+<div class="grid">
+<div class="box"><h3 id="varTitle">🏋️‍♀️ Squats - 50 Variations</h3><div id="varList" style="margin-top:11px;max-height:460px;overflow-y:auto"></div></div>
+<div class="box">
+<h3>📖 Step-By-Step</h3><div style="background:#fff5f8;padding:13px;border-radius:14px;margin-top:9px;line-height:1.7"><p id="stepText">Step 1: Pair kandhe jitne kholo.</p></div>
+<button class="btn pink" onclick="speakCurrentStep()">🔊 Didi Se Suno</button>
+<h3 style="margin-top:14px">⚖️ Calorie Calculator</h3>
+<label>Weight</label><input id="w" class="input" type="number" value="55">
+<label>Height</label><input id="h" class="input" type="number" value="160">
+<label>Age</label><input id="a" class="input" type="number" value="22">
+<label>Goal</label><select id="goal" class="select"><option value="loss">Weight Loss</option><option value="gain">Weight Gain</option><option value="maintain">Maintain</option></select>
+<button class="btn" onclick="calcAll()">Calorie Nikalo</button>
+<div id="res" class="result">BMI: --</div>
+<button class="btn pink" onclick="makePlan()">✨ 30 Din Ka Plan Banao</button>
+</div>
+</div>
+<div class="box" style="margin-top:15px"><h2>📅 30 Din Ka Plan</h2><div style="overflow-x:auto;margin-top:10px"><table><thead><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Snack</th><th>Dinner</th><th>Exercise</th><th>Experience</th></tr></thead><tbody id="planBody"><tr><td colspan="7" style="text-align:center;color:#999">Plan Banao dabao</td></tr></tbody></table></div></div>
+</div>
+
+<!-- DUEL + GROUP PAGE -->
+<div id="duelPage" class="page">
+<h1 style="font-size:33px">⚔️ Duel Aur Group Duel</h1>
+<p style="color:#666;margin:8px 0;line-height:1.6">Upar tab dabao: <b>1 vs 1 Duel</b> sirf 1 dost ke sath, <b>Group Duel</b> 3 se 5 dost ke sath.</p>
+<div style="display:flex;gap:8px;margin-bottom:14px">
+<button class="tabBtn active" id="tab1" onclick="switchDuelTab('single')">⚔️ 1 vs 1 Duel</button>
+<button class="tabBtn" id="tab2" onclick="switchDuelTab('group')">👥 Group Duel (3-5 Dost)</button>
+</div>
+
+<!-- SINGLE DUEL -->
+<div id="singleTab">
+<div class="grid">
+<div class="duelCard">
+<h2>🎲 1 vs 1 Duel Banao</h2>
+<label style="color:#ccc">Tumhara Naam</label><input id="myName" class="input" placeholder="Priya">
+<label style="color:#ccc">Dost Ka Naam</label><input id="friendName" class="input" placeholder="Ritu">
+<label style="color:#ccc">Duel Kis Cheez Ka?</label>
+<select id="duelType" class="select"><option value="squat">🏋️‍♀️ Squats - 60 Sec</option><option value="jacks">⚡ Jumping Jacks - 60 Sec</option><option value="plank">🔥 Plank - Jyada Der</option><option value="crunch">✨ Crunches - 60 Sec</option></select>
+<label style="color:#ccc">Saza</label>
+<select id="duelBet" class="select"><option>☕ Haarnewali Chai Pilayegi</option><option>🍫 Haarnewali Chocolate Degi</option><option>🧹 Haarnewali Ghar Ka Kaam Karegi</option><option>📸 Story Pe Winner Ki Photo</option></select>
+<button class="btn green" onclick="createDuel()">🎲 Duel Banao</button>
+<div style="text-align:center;margin-top:12px"><span class="roomCode" id="roomCode">FIT-0000</span></div>
+<button class="btn pink" onclick="shareDuelWhatsApp()">📲 WhatsApp Pe Bhejo</button>
+</div>
+<div class="box"><h3>🏆 Leaderboard</h3><div id="leaderboard"></div></div>
+</div>
+<div class="duelCard" style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap"><h2>🔴 LIVE 1 vs 1 - 60 Sec</h2><span style="background:#ff4d8d;padding:8px 14px;border-radius:20px;font-weight:800" id="duelStatus">Shuru Nahi Hua</span></div>
+<div class="timerBig" id="duelTimer">60</div>
+<div class="vsBox">
+<div class="vsPlayer" id="meBox"><div style="font-size:36px">👧</div><b id="meNameShow">Tum</b><div class="vsScore" id="meScore">0</div><button class="stepBtn green" onclick="manualRep(1)">+1 Rep</button></div>
+<div style="font-size:28px;font-weight:900;color:#ff4d8d">VS</div>
+<div class="vsPlayer" id="friendBox"><div style="font-size:36px">👩</div><b id="friendNameShow">Dost</b><div class="vsScore" id="friendScore">0</div><button class="stepBtn grey" style="background:#fff;color:#111" onclick="friendRep(1)">Dost +1</button></div>
+</div>
+<p style="text-align:center" id="duelMessage">Duel shuru karo...</p>
+<button class="btn green" onclick="startDuelTimer()">▶️ Duel Start Karo</button>
+<button class="btn pink" onclick="endDuelEarly()">🏁 Khatam Karo, Winner Dekho</button>
+</div>
+</div>
+
+<!-- GROUP DUEL -->
+<div id="groupTab" style="display:none">
+<div class="grid">
+<div class="groupCard">
+<h2>👥 Group Banao - 3 Se 5 Dost</h2>
+<p style="color:#ffe;line-height:1.6;margin-top:6px">Pehle tumhara naam, phir ek ek dost ka naam likh ke <b>Add Karo</b> dabao. Kam se kam 3, jyada se jyada 5 player hone chahiye.</p>
+<label style="color:#ffe">Tumhara Naam (Tum Camera Se Khelogi)</label><input id="groupMyName" class="input" placeholder="Priya">
+<label style="color:#ffe">Dost Ka Naam Likho, Phir Add Dabao</label>
+<div style="display:flex;gap:8px"><input id="groupFriendInput" class="input" placeholder="Jaise: Ritu" style="margin:0"><button class="stepBtn" style="background:#fff;color:#ff4d8d;margin:0;white-space:nowrap" onclick="addGroupPlayer()">➕ Add Dost</button></div>
+<div id="groupPlayerList"></div>
+<p style="font-size:13px;margin-top:8px;color:#ffe">Players: <b id="groupCount">1 / 5</b> &nbsp; • &nbsp; Kam se kam 3 chahiye</p>
+<label style="color:#ffe">Group Duel Kis Cheez Ka? Kitne Second?</label>
+<select id="groupType" class="select"><option value="squat">🏋️‍♀️ Squats - 90 Sec Group War</option><option value="jacks">⚡ Jumping Jacks - 90 Sec</option><option value="crunch">✨ Crunches - 90 Sec</option><option value="lunge">🦵 Lunges - 90 Sec</option></select>
+<select id="groupBet" class="select"><option>☕ Baaki Sab Winner Ko Chai Pilayenge</option><option>🍕 Baaki Sab Winner Ko Pizza Khilayenge</option><option>📸 Baaki Sab Story Pe Winner Ki Photo Dalenge</option><option>🎁 Winner Ko Sab Mil Ke Gift Denge</option></select>
+<button class="btn green" onclick="createGroupDuel()">🎲 Group Duel Banao + Code Lo</button>
+<div style="text-align:center;margin-top:12px"><span class="roomCode" id="groupCode">GROUP-0000</span></div>
+<button class="btn pink" onclick="shareGroupWhatsApp()">📲 WhatsApp Group Me Bhejo - Sabko Ek Sath</button>
+<button class="btn" style="background:#fff;color:#111" onclick="copyGroupText()">📋 Group Text Copy Karo</button>
+</div>
+<div class="box">
+<h3>👑 Group Leaderboard - Hafta Ka Champion</h3>
+<div id="groupLeaderboard"></div>
+<h3 style="margin-top:16px">📜 Pichhle Group Duel</h3>
+<div id="groupHistory" style="line-height:1.8;color:#555;font-size:14px">Abhi koi group duel nahi.</div>
+<button class="btn pink" onclick="clearGroupHistory()">Group History Saaf Karo</button>
+</div>
+</div>
+
+<!-- GROUP ARENA -->
+<div class="groupCard" style="margin-top:16px">
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap"><h2>🔴 LIVE GROUP ARENA - 90 SECOND WAR</h2><span style="background:#fff;color:#ff4d8d;padding:8px 14px;border-radius:20px;font-weight:800" id="groupStatus">Group Taiyar Nahi</span></div>
+<div class="timerBig" id="groupTimer">90</div>
+<p style="text-align:center;color:#ffe">Second Bache • Jo 1st pe hai uske upar 👑 dikhega</p>
+<div id="groupArena" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"></div>
+<div class="podium" id="groupPodium"></div>
+<p style="text-align:center;margin-top:12px" id="groupMessage">Group banao, phir Start dabao. Tum camera se karo, baaki dost apna score batayenge, tum unka +1 dabati raho.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+<button class="btn green" onclick="startGroupDuel()">▶️ Group Duel Start Karo - 90 Sec, Music + Camera ON</button>
+<button class="btn pink" onclick="endGroupEarly()">🏁 Abhi Khatam Karo, Podium Dekho</button>
+</div>
+<p style="font-size:13px;color:#ffe;margin-top:8px">Tip: Ek phone pe ek dost camera se khele, baaki dost apne phone pe khele aur score WhatsApp group me bhejte rahe. Tum yahan unka +1 dabati raho, live rank badlega.</p>
+</div>
+</div>
+</div>
+
+<div id="cameraPage" class="page">
+<h1 style="font-size:33px">👯‍♀️ Compare + Music + Duel</h1>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+<button class="stepBtn green" onclick="startCompare()">▶️ Compare + Music Start</button>
+<button class="stepBtn dark" onclick="stopCamera()">⏹️ Camera Band</button>
+<button class="stepBtn pink" onclick="showPage('duelPage')">⚔️ Duel / Group Page</button>
+</div>
+<div class="compareWrap">
+<div class="compareBox pinkBg"><div class="compareLabel pink">👩‍🏫 3D DIDI - <span id="compareLive">Squats</span></div><canvas id="c2"></canvas><div style="position:absolute;bottom:10px;left:10px;right:10px;z-index:5;background:rgba(255,255,255,.95);padding:10px;border-radius:13px;text-align:center"><b id="compareStepText">Didi: Ready</b><br><small>Didi Angle: <b id="didiAngle">180°</b></small></div></div>
+<div class="compareBox"><video id="camVideo" playsinline muted></video><canvas id="camCanvas" class="overlayCanvas"></canvas><div class="compareLabel">📷 AAP + STICK</div><div style="position:absolute;top:48px;right:12px;z-index:5;background:#00c853;color:#fff;padding:7px 11px;border-radius:20px;font-size:12px;font-weight:700" id="camStatus">Camera Off</div><div style="position:absolute;bottom:10px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.78);color:#fff;padding:11px;border-radius:13px;text-align:center"><b id="camFeedback">Camera Start dabao</b><br><small id="camAngle">Aapka Ghutna: --°</small></div></div>
+</div>
+<div class="grid">
+<div class="box" style="text-align:center;background:#111;color:#fff"><small>🏆 SCORE</small><div style="font-size:52px;font-weight:900;color:#00ff88"><span id="repCount">0</span> Reps</div><p id="matchText">Match: --%</p><p id="didiSays" style="margin-top:8px;font-size:14px;color:#ccc">💬 Didi: ...</p></div>
+<div class="box"><h3>🎯 Exercise</h3><select id="camEx" class="select" onchange="changeCompareEx(this.value)"><option value="squat">Squats</option><option value="jacks">Jumping Jacks</option><option value="lunge">Lunges</option><option value="yoga">Yoga</option></select><button class="btn green" onclick="startCompare()">▶️ Start Karo</button></div>
+</div>
+</div>
+
+<div id="searchPage" class="page"><h1 style="font-size:33px">🔍 Search - 400 Variations</h1><input id="searchInput2" class="input" style="max-width:520px" placeholder="Belly, Legs, Squat..." oninput="doSearch(this.value)"><div id="searchResults" style="margin-top:13px"></div></div>
+
+<div id="profile" class="page">
+<div class="profileHead"><div class="avatar" id="avatarLetter">H</div><div><h2 id="profileNameShow">Healthy Didi</h2><p id="profileSubShow">Profile banao</p><p style="font-size:13px;margin-top:5px">🔥 Streak: <span id="streakDay">0</span> • 🎯 <span id="goalShow">Fit Rehna</span> • 📷 Reps: <span id="profileReps">0</span> • 🏅 Badges: <span id="profileBadges">0</span> • 👑 Group Jeet: <span id="profileWins">0</span></p></div></div>
+<div class="grid">
+<div class="box"><h3>👤 Profile Banao</h3>
+<label>Naam</label><input id="pName" class="input" placeholder="Priya Sharma">
+<label>Age</label><input id="pAge" class="input" type="number" placeholder="22">
+<label>Weight</label><input id="pWeight" class="input" type="number" placeholder="55">
+<label>Height</label><input id="pHeight" class="input" type="number" placeholder="160">
+<label>City</label><input id="pCity" class="input" placeholder="Shikohabad, UP">
+<label>Goal</label><select id="pGoal" class="select"><option>Weight Loss</option><option>Weight Gain</option><option>Fit Rehna Hai</option><option>Belly Fat Kam Karna</option></select>
+<button class="btn pink" onclick="saveProfile()">💾 Save Profile</button></div>
+<div class="box"><h3>🏅 Badges + Duel + Group History</h3><div id="badgeBox" style="margin-top:10px;font-size:28px">Koi badge nahi.</div><div id="duelHistory" style="margin-top:12px;line-height:1.8;color:#555;font-size:14px"></div><div id="groupHistoryProfile" style="margin-top:8px;line-height:1.8;color:#555;font-size:14px"></div><div id="progressBox" style="line-height:2;margin-top:10px">Profile banao.</div></div>
+</div>
+</div>
+
+<div id="about" class="page">
+<div style="background:#111;color:#fff;padding:28px;border-radius:26px;line-height:1.7"><h1 style="font-size:35px">Healthy India 🇮🇳 8.0</h1><p style="margin-top:8px">Akeli, 1 dost, ya pura group. Sabke sath fit bano, haso, jeeto, Group Queen bano.</p></div>
+<div class="grid">
+<div class="box"><h3>👥 Group Duel Kaise Kaam Karta Hai?</h3><p style="margin-top:8px;line-height:1.7;color:#555">Tum group banao, code milega. WhatsApp group me bhejo. Sab 90 sec me karo. Score isi phone pe dalo ya camera se gino. Podium pe 1st, 2nd, 3rd dikhega.</p></div>
+<div class="box"><h3>🔒 Video Safe Hai?</h3><p style="margin-top:8px;line-height:1.7;color:#555">Haan, video kahin nahi jata. Sirf naam aur score share hota hai, wo bhi tum khud bhejti ho WhatsApp pe.</p></div>
+<div class="box"><h3>✨ Sab Kuch</h3><p style="margin-top:8px;line-height:1.8;color:#555">400 Variations, 3D, Camera Stick, Voice, Compare, Daily Challenge, Music, 1v1 Duel, Group Duel, Calculator, Diet, Search, Profile, About.</p></div>
+<div class="box"><h3>⚠️ Dhyaan Rakho</h3><p style="margin-top:8px;line-height:1.7;color:#555">Jeetne ke chakkar me galat form mat karo. Dard ho to ruk jao.</p></div>
+</div>
+</div>
+
+<footer style="padding:22px;text-align:center;color:#999;font-size:13px"><a href="mailto:Healthy India IN 8.0">bookp7647@gmail.com</a>.</footer>
+
+<div class="musicBar">
+<div class="beatDot" id="beatDot"></div>
+<div><b>🎵 <span id="musicName">Workout Beat</span></b><br><small style="color:#aaa" id="musicBpm">128 BPM</small></div>
+<button style="background:#ff4d8d;color:#fff" id="musicBtn" onclick="toggleMusic()">▶️ Play Music</button>
+<select id="musicSelect" onchange="changeMusic(this.value)"><option value="workout">⚡ Workout Beat</option><option value="desi">🥁 Desi Dhol</option><option value="calm">🧘 Calm Yoga</option></select>
+<label style="font-size:12px">Volume</label><input type="range" min="0" max="100" value="50" oninput="setVolume(this.value)">
+<div style="margin-left:auto;font-size:13px">🏆 Aaj: <b id="miniChallenge">0/3 Done</b> &nbsp; 👑 <b id="miniDuel">Group Jeet: 0</b></div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+window.__poseVal=0; window.__mode='squat'; window.__auto=true; window.__slow=true;
+function buildTrainer(canvas){
+ const scene=new THREE.Scene(); scene.background=new THREE.Color(0xfff0f5);
+ const camera=new THREE.PerspectiveCamera(45, canvas.clientWidth/canvas.clientHeight, .1, 100); camera.position.set(0,0.85,3.5);
+ const renderer=new THREE.WebGLRenderer({canvas,antialias:true}); renderer.setSize(canvas.clientWidth||340,canvas.clientHeight||500);
+ scene.add(new THREE.AmbientLight(0xffffff,.8)); const dl=new THREE.DirectionalLight(0xffffff,1.1); dl.position.set(2,4,2); scene.add(dl);
+ const floor=new THREE.Mesh(new THREE.CircleGeometry(1.15,36), new THREE.MeshStandardMaterial({color:0xffe0ec})); floor.rotation.x=-Math.PI/2; floor.position.y=-0.98; scene.add(floor);
+ const skin=new THREE.MeshStandardMaterial({color:0xffd9b3,roughness:.55});
+ const cloth=new THREE.MeshStandardMaterial({color:0xff4d8d,roughness:.45});
+ const pantsM=new THREE.MeshStandardMaterial({color:0x1f1f2e});
+ const hairM=new THREE.MeshStandardMaterial({color:0x1c120c});
+ function limb(r,len,mat){ const g=new THREE.Group(); const m=new THREE.Mesh(new THREE.CapsuleGeometry(r,len,4,14),mat); m.position.y=-len/2; g.add(m); return g; }
+ const root=new THREE.Group(); scene.add(root);
+ const hips=new THREE.Group(); hips.position.y=.78; root.add(hips);
+ const torsoG=new THREE.Group(); torsoG.position.y=.08; hips.add(torsoG);
+ const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.155,.42,4,18),cloth); torso.position.y=.32; torsoG.add(torso);
+ const neckG=new THREE.Group(); neckG.position.y=.62; torsoG.add(neckG);
+ const headG=new THREE.Group(); headG.position.y=.22; neckG.add(headG);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.195,32,32),skin); headG.add(head);
+ const hair=new THREE.Mesh(new THREE.SphereGeometry(.205,32,32),hairM); hair.position.set(0,.045,-.045); hair.scale.set(1,1,.86); headG.add(hair);
+ function arm(side){ const sh=new THREE.Group(); sh.position.set(.24*side,.52,0); torsoG.add(sh); const up=limb(.052,.28,skin); sh.add(up); const el=new THREE.Group(); el.position.y=-.30; up.add(el); const fo=limb(.045,.26,skin); el.add(fo); return {sh,el}; }
+ const armL=arm(-1), armR=arm(1);
+ function leg(side){ const hip=new THREE.Group(); hip.position.set(.11*side,-.02,0); hips.add(hip); const th=limb(.072,.34,pantsM); hip.add(th); const kn=new THREE.Group(); kn.position.y=-.37; th.add(kn); const sh2=limb(.058,.34,skin); kn.add(sh2); return {hip,kn}; }
+ const legL=leg(-1), legR=leg(1);
+ return {scene,camera,renderer,root,hips,torsoG,armL,armR,legL,legR};
+}
+const main=buildTrainer(document.getElementById('c'));
+const mini=buildTrainer(document.getElementById('c2'));
+function applyTo(tr,v){
+ const s=v, mode=window.__mode;
+ tr.root.position.y=0; tr.root.rotation.x=0; tr.hips.position.y=.78; tr.torsoG.rotation.x=0;
+ tr.armL.sh.rotation.set(0,0,.15); tr.armR.sh.rotation.set(0,0,-.15); tr.armL.el.rotation.x=-.25; tr.armR.el.rotation.x=-.25;
+ tr.legL.hip.rotation.x=0; tr.legR.hip.rotation.x=0; tr.legL.kn.rotation.x=0; tr.legR.kn.rotation.x=0;
+ if(mode=='squat'){ tr.hips.position.y=.78-s*.32; tr.legL.hip.rotation.x=-s*1.55; tr.legR.hip.rotation.x=-s*1.55; tr.legL.kn.rotation.x=s*2.05; tr.legR.kn.rotation.x=s*2.05; tr.torsoG.rotation.x=s*.18; tr.armL.sh.rotation.x=-1.3*s-.1; tr.armR.sh.rotation.x=-1.3*s-.1; }
+ if(mode=='pushup'){ tr.root.rotation.x=1.22; tr.root.position.y=-.42+s*.14; tr.armL.el.rotation.x=-s*.9; tr.armR.el.rotation.x=-s*.9; tr.legL.hip.rotation.x=1.22; tr.legR.hip.rotation.x=1.22; }
+ if(mode=='plank'){ tr.root.rotation.x=1.32; tr.root.position.y=-.46; tr.armL.sh.rotation.x=-1.5; tr.armR.sh.rotation.x=-1.5; tr.legL.hip.rotation.x=1.32; tr.legR.hip.rotation.x=1.32; }
+ if(mode=='lunge'){ tr.legL.hip.rotation.x=-s*1.45; tr.legL.kn.rotation.x=s*1.9; tr.legR.hip.rotation.x=s*.85; tr.legR.kn.rotation.x=s*1.7; tr.hips.position.y=.78-s*.18; }
+ if(mode=='jacks'){ tr.hips.position.y=.78+s*.18; tr.armL.sh.rotation.z=.15+s*2.6; tr.armR.sh.rotation.z=-.15-s*2.6; }
+ if(mode=='bridge'){ tr.root.position.y=-.28+s*.14; tr.legL.hip.rotation.x=-1.15; tr.legR.hip.rotation.x=-1.15; tr.legL.kn.rotation.x=1.9; tr.legR.kn.rotation.x=1.9; }
+ if(mode=='crunch'){ tr.root.position.y=-.30; tr.legL.hip.rotation.x=-1.2; tr.legR.hip.rotation.x=-1.2; tr.legL.kn.rotation.x=1.7; tr.legR.kn.rotation.x=1.7; tr.torsoG.rotation.x=s*.62; }
+ if(mode=='yoga'){ tr.armL.sh.rotation.z=.15+s*1.9; tr.armR.sh.rotation.z=-.15-s*1.9; }
+ tr.root.rotation.y+=0.003;
+}
+let t=0, targetVal=0, stepVal=0;
+window.__setTarget=function(v){ targetVal=v; };
+function animate(){
+ requestAnimationFrame(animate);
+ const bpm=window.__musicBpm||128;
+ if(window.__auto){ t+=(window.__musicOn? (bpm/128)*0.032 : (window.__slow?0.016:0.032)); stepVal=(Math.sin(t*1.6)+1)/2; window.__poseVal=stepVal; }
+ else { stepVal+=(targetVal-stepVal)*0.12; window.__poseVal=stepVal; }
+ applyTo(main,stepVal); applyTo(mini,stepVal);
+ main.renderer.render(main.scene,main.camera); mini.renderer.render(mini.scene,mini.camera);
+ const el=document.getElementById('didiAngle'); if(el) el.innerText=Math.round(180-stepVal*90)+'°';
+}
+animate();
+window.playEx=function(m,btn){ window.__mode=m; document.querySelectorAll('.exbtn').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); document.getElementById('liveName').innerText=btn?btn.innerText:m; const cl=document.getElementById('compareLive'); if(cl) cl.innerText=btn?btn.innerText:m; showVars(m); setStep(1); };
+window.togglePlay=function(){ window.__auto=!window.__auto; document.getElementById('playBtn').innerText=window.__auto?'⏸️ Pause':'▶️ Auto Play'; };
+window.toggleSlow=function(){ window.__slow=!window.__slow; document.getElementById('slowBtn').innerText=window.__slow?'🐢 Slow: ON':'🐢 Slow: OFF'; };
+window.setStep=function(n){ window.__auto=false; window.__setTarget(n==1?0:n==2?.65:n==3?1:.15); document.getElementById('playBtn').innerText='▶️ Auto Play'; document.getElementById('stepBadge').innerText='STEP '+n+' / 4'; const arr={squat:['Step 1: Pair kandhe jitne kholo, kamar seedhi.','Step 2: Hips peeche, ghutne 90 degree modo.','Step 3: Neeche 2 second hold, pet tight.','Step 4: Edi se dhakka deke upar aao.'],pushup:['Step 1: Body ek line me.','Step 2: Kohni mod ke seena neeche le jao.','Step 3: 1 second hold karo.','Step 4: Upar dhakka do.'],plank:['Step 1: Kohni kandhe ke neeche.','Step 2: Pet andar, kamar seedhi.','Step 3: 30 second hold.','Step 4: Dheere rest karo.'],lunge:['Step 1: Ek pair aage.','Step 2: Dono ghutne modo.','Step 3: 90 degree hold.','Step 4: Wapas khade ho.'],jacks:['Step 1: Pair jode.','Step 2: Jump karke pair kholo, haath upar.','Step 3: Upar hold.','Step 4: Wapas aao.'],bridge:['Step 1: Leto, ghutne modo.','Step 2: Hips upar uthao.','Step 3: 3 second hold.','Step 4: Dheere neeche.'],crunch:['Step 1: Leto, ghutne modo.','Step 2: Kandhe upar uthao.','Step 3: 2 second hold.','Step 4: Dheere neeche.'],yoga:['Step 1: Namaskar, saans lo.','Step 2: Haath upar stretch.','Step 3: 5 second hold.','Step 4: Relax.']}; const txt=(arr[window.__mode]||arr.squat)[n-1]; document.getElementById('stepText').innerText=txt; document.getElementById('ctrlDesc').innerText=txt; document.getElementById('compareStepText').innerText='Didi: '+txt; window.__currentStepText=txt; speakDidi(txt); };
+</script>
+
+<script>
+// ===== VOICE =====
+let voiceOn=true, lastSpoke=0;
+window.toggleVoice=function(){ voiceOn=!voiceOn; document.getElementById('voiceBtn').innerText=voiceOn?'🔊 Awaaz: ON':'🔇 Awaaz: OFF'; if(!voiceOn) speechSynthesis.cancel(); };
+window.speakDidi=function(text){
+ if(!voiceOn || !('speechSynthesis' in window)) return;
+ const now=Date.now(); if(now-lastSpoke<2500 && text.length<35) return; lastSpoke=now;
+ const oldVol=window.__musicVol||0.5; if(window.__setMusicVol) window.__setMusicVol(0.12);
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text); u.lang='hi-IN'; u.rate=0.95; u.pitch=1.1;
+ const voices=speechSynthesis.getVoices(); const hindi=voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('hi')); if(hindi) u.voice=hindi;
+ const ds=document.getElementById('didiSays'); if(ds) ds.innerText='💬 Didi: '+text;
+ u.onend=()=>{ if(window.__setMusicVol) window.__setMusicVol(oldVol); };
+ speechSynthesis.speak(u);
+};
+window.speakCurrentStep=function(){ speakDidi(window.__currentStepText||document.getElementById('stepText').innerText); };
+
+// ===== MUSIC =====
+let audioCtx=null, musicTimer=null, musicOn=false, musicType='workout', musicVol=0.5, beatStep=0;
+window.__musicOn=false; window.__musicBpm=128; window.__musicVol=0.5;
+window.__setMusicVol=function(v){ musicVol=v; window.__musicVol=v; };
+function ensureAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state=='suspended') audioCtx.resume(); }
+function playDrum(freq,dur,vol,type){ if(!audioCtx) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type=type||'sine'; o.frequency.setValueAtTime(freq,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(Math.max(30,freq*0.4),audioCtx.currentTime+dur); g.gain.setValueAtTime(vol,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+dur); }
+function playTone(freq,dur,vol){ if(!audioCtx) return; const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='triangle'; o.frequency.value=freq; g.gain.setValueAtTime(vol,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+dur); }
+function beatLoop(){ beatStep++; const dot=document.getElementById('beatDot'); if(dot) dot.classList.add('on'); setTimeout(()=>{ if(dot) dot.classList.remove('on'); },180); if(musicType=='workout'){ if(beatStep%2==1) playDrum(150,0.18,0.5*musicVol); if(beatStep%2==0) playDrum(800,0.05,0.12*musicVol,'square'); const notes=[110,110,132,98]; playTone(notes[beatStep%4],0.22,0.14*musicVol); } if(musicType=='desi'){ if(beatStep%4==1) playDrum(120,0.25,0.6*musicVol); if(beatStep%4==3) playDrum(200,0.15,0.4*musicVol); if(beatStep%2==0) playDrum(900,0.04,0.15*musicVol,'square'); playTone([165,196,165,147][beatStep%4],0.2,0.12*musicVol); } if(musicType=='calm'){ if(beatStep%4==1){ playTone(220,0.9,0.10*musicVol); playTone(330,0.9,0.07*musicVol); } if(beatStep%4==3) playTone(262,0.8,0.08*musicVol); } }
+window.startMusic=function(){ ensureAudio(); if(musicOn) return; musicOn=true; window.__musicOn=true; beatStep=0; const bpm=musicType=='calm'?70:musicType=='desi'?110:128; window.__musicBpm=bpm; musicTimer=setInterval(beatLoop, 60000/bpm/2); document.getElementById('musicBtn').innerText='⏸️ Music Band Karo'; };
+window.stopMusic=function(){ musicOn=false; window.__musicOn=false; clearInterval(musicTimer); document.getElementById('musicBtn').innerText='▶️ Play Music'; };
+window.toggleMusic=function(){ if(musicOn) stopMusic(); else startMusic(); };
+window.changeMusic=function(v){ musicType=v; document.getElementById('musicSelect').value=v; if(musicOn){ stopMusic(); startMusic(); } document.getElementById('musicName').innerText=v=='workout'?'Workout Beat':v=='desi'?'Desi Dhol Beat':'Calm Yoga Music'; };
+window.setVolume=function(v){ musicVol=v/100; window.__musicVol=musicVol; };
+
+// ===== DAILY CHALLENGE =====
+const CHALLENGES=[
+ {title:'20 Squats + 30 Sec Plank + 3 Litre Paani',tasks:[{id:'squat',label:'🏋️‍♀️ 20 Squats Karo',target:20},{id:'plank',label:'🔥 30 Sec Plank',target:1},{id:'water',label:'💧 3 Litre Paani',target:1}],badge:'🏋️‍♀️'},
+ {title:'15 Lunges + 20 Jumping Jacks + 8000 Steps',tasks:[{id:'lunge',label:'🦵 15 Lunges',target:15},{id:'jacks',label:'⚡ 20 Jumping Jacks',target:20},{id:'steps',label:'🚶 8000 Steps',target:1}],badge:'⚡'},
+ {title:'25 Crunches + Yoga + Diet Follow',tasks:[{id:'crunch',label:'✨ 25 Crunches',target:25},{id:'yoga',label:'🧘 10 Min Yoga',target:1},{id:'diet',label:'🥗 Diet Follow Karo',target:1}],badge:'🧘'},
+ {title:'30 Squats + 1 Min Plank + No Sugar',tasks:[{id:'squat',label:'🏋️‍♀️ 30 Squats',target:30},{id:'plank',label:'🔥 1 Min Plank',target:1},{id:'sugar',label:'🚫 No Sugar Day',target:1}],badge:'💪'},
+ {title:'20 Bridge + 10 Push-Ups + 7 Ghante Neend',tasks:[{id:'bridge',label:'🍑 20 Bridge',target:20},{id:'pushup',label:'💪 10 Push-Ups',target:10},{id:'sleep',label:'😴 7 Ghante Neend',target:1}],badge:'🔥'},
+];
+function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function getTodayChallenge(){ const d=new Date(); return CHALLENGES[(d.getDate()+d.getMonth()*3)%CHALLENGES.length]; }
+let challengeProgress={};
+function loadChallenge(){
+ challengeProgress=JSON.parse(localStorage.getItem('healthyChallenge_'+todayKey())||'{}');
+ const ch=getTodayChallenge();
+ document.getElementById('todayDate').innerText=new Date().toLocaleDateString('hi-IN',{weekday:'long',day:'numeric',month:'long'});
+ document.getElementById('challengeTitle').innerText=ch.title;
+ document.getElementById('challengeBadge').innerText=ch.badge;
+ renderChallenge(); renderStreak();
+}
+function renderChallenge(){
+ const ch=getTodayChallenge(); let done=0;
+ document.getElementById('challengeTasks').innerHTML=ch.tasks.map(t=>{
+   const cur=challengeProgress[t.id]||0; const isDone=cur>=t.target; if(isDone) done++;
+   return `<div class="taskRow ${isDone?'done':''}"><span>${t.label}</span><span><b>${isDone?'✅ Done':Math.min(cur,t.target)+'/'+t.target}</b> ${isDone?'':`<button style="border:none;background:#fff;color:#ff4d8d;padding:7px 11px;border-radius:20px;font-weight:800;cursor:pointer" onclick="completeTask('${t.id}',${t.target})">Done ✅</button>`}</span></div>`;
+ }).join('');
+ const pct=Math.round(done/ch.tasks.length*100);
+ document.getElementById('challengeFill').style.width=pct+'%';
+ document.getElementById('challengePercent').innerText=pct+'% Complete';
+ document.getElementById('miniChallenge').innerText=done+'/'+ch.tasks.length+' Done';
+ if(done==ch.tasks.length) completeChallenge();
+}
+window.completeTask=function(id,target){ challengeProgress[id]=target; localStorage.setItem('healthyChallenge_'+todayKey(),JSON.stringify(challengeProgress)); renderChallenge(); speakDidi('Ek kaam complete!'); };
+function completeChallenge(){
+ if(challengeProgress.__completed) return;
+ challengeProgress.__completed=true; localStorage.setItem('healthyChallenge_'+todayKey(),JSON.stringify(challengeProgress));
+ const badges=JSON.parse(localStorage.getItem('healthyBadges')||'[]'); badges.push({date:todayKey(),badge:getTodayChallenge().badge,title:getTodayChallenge().title}); localStorage.setItem('healthyBadges',JSON.stringify(badges));
+ let streak=parseInt(localStorage.getItem('healthyStreak')||'0')+1; localStorage.setItem('healthyStreak',streak);
+ let points=parseInt(localStorage.getItem('healthyPoints')||'0')+50; localStorage.setItem('healthyPoints',points);
+ document.getElementById('confetti').style.display='block'; document.getElementById('confettiText').innerText='CHALLENGE COMPLETE! +50 POINTS';
+ setTimeout(()=>document.getElementById('confetti').style.display='none',3500);
+ speakDidi('Badhai ho! Aaj ka challenge complete!');
+ renderStreak(); renderBadges(); updateTopStats();
+}
+function renderStreak(){
+ const streak=parseInt(localStorage.getItem('healthyStreak')||'0');
+ document.getElementById('topStreak').innerText=streak; document.getElementById('streakDay').innerText=Math.max(streak,1);
+ const days=['Som','Mang','Budh','Guru','Shukr','Shani','Ravi'];
+ document.getElementById('streakRow').innerHTML=days.map((d,i)=>`<div class="streakDay ${(i<Math.min(streak,7))?'done':''}">${i<Math.min(streak,7)?'🔥':'○'}<br>${d}</div>`).join('');
+}
+function renderBadges(){
+ const badges=JSON.parse(localStorage.getItem('healthyBadges')||'[]');
+ document.getElementById('profileBadges').innerText=badges.length;
+ document.getElementById('badgeBox').innerHTML=badges.length?badges.map(b=>`<span>${b.badge}</span>`).join(' '):'Koi badge nahi, challenge pura karo.';
+}
+function updateTopStats(){
+ document.getElementById('topPoints').innerText=parseInt(localStorage.getItem('healthyPoints')||'0');
+ const wins=JSON.parse(localStorage.getItem('healthyGroupDuels')||'[]').filter(d=>d.winnerIsMe).length + JSON.parse(localStorage.getItem('healthyDuels')||'[]').filter(d=>d.result=='win').length;
+ document.getElementById('topWins').innerText=wins; document.getElementById('miniDuel').innerText='Group Jeet: '+wins; document.getElementById('profileWins').innerText=wins;
+ renderStreak();
+}
+window.addChallengeReps=function(exType,count){ const ch=getTodayChallenge(); const task=ch.tasks.find(t=>t.id==exType); if(!task) return; challengeProgress[exType]=Math.min(task.target,(challengeProgress[exType]||0)+count); localStorage.setItem('healthyChallenge_'+todayKey(),JSON.stringify(challengeProgress)); renderChallenge(); };
+loadChallenge(); renderBadges(); updateTopStats();
+
+// ===== TAB SWITCH =====
+window.switchDuelTab=function(tab){
+ document.getElementById('singleTab').style.display=tab=='single'?'block':'none';
+ document.getElementById('groupTab').style.display=tab=='group'?'block':'none';
+ document.getElementById('tab1').classList.toggle('active',tab=='single');
+ document.getElementById('tab2').classList.toggle('active',tab=='group');
+};
+
+// ===== 1 VS 1 DUEL =====
+let roomCode='FIT-0000', duelMe=0, duelFriend=0, duelTimerInt=null, duelLeft=60, duelRunning=false, duelMyName='Tum', duelFriendName='Dost';
+function getNames(){
+ duelMyName=document.getElementById('myName').value.trim()||document.getElementById('pName').value.trim()||'Tum';
+ duelFriendName=document.getElementById('friendName').value.trim()||'Dost';
+ document.getElementById('meNameShow').innerText=duelMyName;
+ document.getElementById('friendNameShow').innerText=duelFriendName;
+}
+window.createDuel=function(){
+ getNames(); roomCode='FIT-'+Math.floor(1000+Math.random()*9000);
+ document.getElementById('roomCode').innerText=roomCode;
+ document.getElementById('duelStatus').innerText='Duel Taiyar Hai';
+ speakDidi('Duel ban gaya! Code hai '+roomCode+'. Dost ko bhejo!');
+};
+window.shareDuelWhatsApp=function(){
+ if(roomCode=='FIT-0000') createDuel(); getNames();
+ const type=document.getElementById('duelType').selectedOptions[0].text;
+ const bet=document.getElementById('duelBet').value;
+ const msg='⚔️ HEALTHY INDIA DUEL! '+duelMyName+' ne tumhe challenge diya!\nDuel: '+type+'\nTime: 60 second\nCode: '+roomCode+'\nSaza: '+bet+'\nHealthy India kholo, Duel page pe code dalo!';
+ window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+};
+function updateDuelUI(){
+ document.getElementById('meScore').innerText=duelMe; document.getElementById('friendScore').innerText=duelFriend;
+ document.getElementById('meBox').classList.toggle('lead',duelMe>duelFriend);
+ document.getElementById('friendBox').classList.toggle('lead',duelFriend>duelMe);
+ if(duelRunning) document.getElementById('duelMessage').innerText=duelMe>duelFriend?duelMyName+' aage hai!':duelFriend>duelMe?duelFriendName+' aage hai, tez karo!':'Barabar hai!';
+}
+window.manualRep=function(n){ duelMe+=n; updateDuelUI(); };
+window.friendRep=function(n){ duelFriend+=n; updateDuelUI(); };
+window.startDuelTimer=function(){
+ getNames(); if(roomCode=='FIT-0000') createDuel();
+ duelMe=0; duelFriend=0; duelLeft=60; duelRunning=true; updateDuelUI();
+ document.getElementById('duelStatus').innerText='🔴 LIVE DUEL';
+ startMusic(); startCamera(); speakDidi('Duel shuru! 60 second, tez karo!');
+ clearInterval(duelTimerInt);
+ duelTimerInt=setInterval(()=>{ duelLeft--; document.getElementById('duelTimer').innerText=duelLeft; if(duelLeft==30) speakDidi('30 second bache!'); if(duelLeft<=0) finishDuel(); },1000);
+};
+window.endDuelEarly=function(){ if(duelRunning) finishDuel(); };
+function finishDuel(){
+ duelRunning=false; clearInterval(duelTimerInt);
+ const bet=document.getElementById('duelBet').value; let result;
+ if(duelMe>duelFriend) result='win'; else if(duelFriend>duelMe) result='lose'; else result='draw';
+ const duels=JSON.parse(localStorage.getItem('healthyDuels')||'[]');
+ duels.unshift({date:todayKey(),me:duelMyName,friend:duelFriendName,meScore:duelMe,friendScore:duelFriend,result:result,bet:bet,code:roomCode});
+ localStorage.setItem('healthyDuels',JSON.stringify(duels.slice(0,20)));
+ if(result=='win'){ let p=parseInt(localStorage.getItem('healthyPoints')||'0')+100; localStorage.setItem('healthyPoints',p); speakDidi('Badhai ho, tum jeet gayi! 100 points!'); }
+ renderLeaderboard(); updateTopStats(); renderDuelHistory();
+ document.getElementById('confetti').style.display='block'; document.getElementById('confettiText').innerText=result=='win'?duelMyName+' JEET GAYI! 🏆':result=='lose'?duelFriendName+' Jeet Gayi':'DRAW!';
+ setTimeout(()=>document.getElementById('confetti').style.display='none',3500);
+}
+function renderLeaderboard(){
+ const duels=JSON.parse(localStorage.getItem('healthyDuels')||'[]'); const scores={};
+ duels.forEach(d=>{ scores[d.me]=(scores[d.me]||0)+d.meScore; scores[d.friend]=(scores[d.friend]||0)+d.friendScore; });
+ const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+ document.getElementById('leaderboard').innerHTML=sorted.length?sorted.map(([name,sc],i)=>`<div class="taskRow" style="background:#fff2f6;color:#111"><span>${i==0?'👑 ':i+1+'. '}<b>${name}</b></span><span><b>${sc} reps</b></span></div>`).join(''):'<p style="color:#888">Abhi koi duel nahi.</p>';
+}
+function renderDuelHistory(){
+ const duels=JSON.parse(localStorage.getItem('healthyDuels')||'[]');
+ document.getElementById('duelHistory').innerHTML=duels.length?'<b>1v1 History:</b><br>'+duels.slice(0,5).map(d=>`${d.me} ${d.meScore} - ${d.friendScore} ${d.friend} • ${d.result=='win'?'🏆 Jeet':'😢 Haar'}`).join('<br>'):'Koi 1v1 history nahi.';
+}
+renderLeaderboard(); renderDuelHistory();
+
+// ===== GROUP DUEL - 3 TO 5 PLAYERS =====
+let groupPlayers=[], groupCode='GROUP-0000', groupRunning=false, groupLeft=90, groupTimerInt=null;
+const GROUP_COLORS=['#00ff88','#ffcc00','#00ccff','#ff6b9d','#b388ff'];
+const GROUP_EMOJIS=['👧','👩','👱‍♀️','🧕','👩‍🦰'];
+function getMyGroupName(){ return document.getElementById('groupMyName').value.trim()||document.getElementById('pName').value.trim().split(' ')[0]||'Tum'; }
+function initGroupPlayers(){
+ const me=getMyGroupName();
+ groupPlayers=[{name:me,score:0,isMe:true,color:GROUP_COLORS[0],emoji:GROUP_EMOJIS[0]}];
+ renderGroupList();
+}
+window.addGroupPlayer=function(){
+ const inp=document.getElementById('groupFriendInput');
+ const name=inp.value.trim();
+ if(!name){ alert('Pehle dost ka naam likho, jaise Ritu'); return; }
+ if(groupPlayers.length>=5){ alert('Jyada se jyada 5 player ho sakte hain. 5 hi kaafi hain, maza aa jayega.'); return; }
+ if(groupPlayers.some(p=>p.name.toLowerCase()==name.toLowerCase())){ alert('Ye naam pehle se hai, dusra naam likho.'); return; }
+ const idx=groupPlayers.length;
+ groupPlayers.push({name:name,score:0,isMe:false,color:GROUP_COLORS[idx],emoji:GROUP_EMOJIS[idx]});
+ inp.value=''; renderGroupList();
+ speakDidi(name+' group me aa gayi! Ab '+groupPlayers.length+' player ho gaye!');
+};
+window.removeGroupPlayer=function(idx){
+ if(groupPlayers[idx].isMe){ alert('Tum khud ko nahi hata sakti, tum to captain ho!'); return; }
+ groupPlayers.splice(idx,1); renderGroupList();
+};
+function renderGroupList(){
+ document.getElementById('groupCount').innerText=groupPlayers.length+' / 5';
+ document.getElementById('groupPlayerList').innerHTML=groupPlayers.map((p,i)=>`<div class="playerChip"><span><span style="background:${p.color};color:#111;padding:5px 9px;border-radius:12px;font-weight:800">${p.emoji} ${p.name}</span> ${p.isMe?'<small>(Tum - Camera Se)</small>':'<small>(Dost - Score Batayegi)</small>'}</span>${p.isMe?'👑 Captain':`<button style="border:none;background:rgba(255,255,255,.3);color:#fff;padding:6px 10px;border-radius:12px;cursor:pointer" onclick="removeGroupPlayer(${i})">Hatao ✖</button>`}</div>`).join('');
+ renderGroupArena();
+}
+window.quickGroupDuel=function(){
+ document.getElementById('groupMyName').value='Priya';
+ initGroupPlayers();
+ ['Ritu','Neha','Pooja'].forEach((n,i)=>{ groupPlayers.push({name:n,score:0,isMe:false,color:GROUP_COLORS[i+1],emoji:GROUP_EMOJIS[i+1]}); });
+ renderGroupList(); createGroupDuel(); showPage('duelPage'); switchDuelTab('group');
+ speakDidi('Group ban gaya! Priya, Ritu, Neha, Pooja. Chaaro aa gayi! Ab code WhatsApp group me bhejo!');
+};
+function renderGroupArena(){
+ const sorted=[...groupPlayers].sort((a,b)=>b.score-a.score);
+ const maxScore=Math.max(1,...groupPlayers.map(p=>p.score));
+ document.getElementById('groupArena').innerHTML=groupPlayers.map((p,i)=>{
+   const rank=sorted.findIndex(s=>s.name==p.name)+1;
+   return `<div class="groupPlayer" style="background:${p.color}22;border:3px solid ${p.color};${rank==1 && p.score>0?'box-shadow:0 0 0 3px #ffcc00;':''}"><div style="font-size:30px">${p.emoji} ${rank==1 && p.score>0?'👑':''}</div><b>${p.name}</b> ${p.isMe?'<small>(Tum)</small>':''}<div style="font-size:36px;font-weight:900">${p.score}</div><small>Rank #${rank} • ${p.score>0?'Aage badh rahi hai':'Abhi 0'}</small><div class="groupBar"><div style="width:${Math.round(p.score/maxScore*100)}%;background:${p.color}"></div></div><button class="stepBtn" style="background:#fff;color:#111;margin-top:8px" onclick="groupRep(${i},1)">+1 Rep</button> <button class="stepBtn" style="background:rgba(0,0,0,.25);color:#fff" onclick="groupRep(${i},5)">+5 Rep</button></div>`;
+ }).join('');
+ // Podium
+ if(groupPlayers.some(p=>p.score>0)){
+   const top3=sorted.slice(0,3);
+   document.getElementById('groupPodium').innerHTML=top3.map((p,i)=>`<div class="podiumBox" style="background:${i==0?'#ffcc00':i==1?'#e0e0e0':'#ff9a6b'};padding-top:${i==0?'22px':'12px'}"><div style="font-size:26px">${i==0?'👑🥇':i==1?'🥈':'🥉'}</div><b>${p.name}</b><br>${p.score} reps</div>`).join('');
+ } else {
+   document.getElementById('groupPodium').innerHTML='';
+ }
+}
+window.groupRep=function(idx,n){
+ groupPlayers[idx].score+=n;
+ if(groupRunning && groupPlayers[idx].isMe){ /* camera se bhi badhega, double mat karo, ye manual hai */ }
+ renderGroupArena(); updateGroupMessage();
+ if(navigator.vibrate) navigator.vibrate(30);
+};
+function updateGroupMessage(){
+ const sorted=[...groupPlayers].sort((a,b)=>b.score-a.score);
+ const me=groupPlayers.find(p=>p.isMe);
+ const myRank=sorted.findIndex(s=>s.name==me.name)+1;
+ if(!groupRunning){ document.getElementById('groupMessage').innerText='Group taiyar hai: '+groupPlayers.map(p=>p.name).join(', ')+'. Start dabao!'; return; }
+ document.getElementById('groupMessage').innerText='🔥 Live Rank: 1st '+sorted[0].name+' ('+sorted[0].score+') • Tum '+myRank+'th pe ho ('+me.score+') • '+(myRank==1?'Tum aage ho, rukna mat! 👑':'Tez karo, '+sorted[0].name+' aage hai!');
+}
+window.createGroupDuel=function(){
+ if(groupPlayers.length<3){ alert('Group duel ke liye kam se kam 3 player chahiye. Abhi '+groupPlayers.length+' hai. 2 dost aur add karo.'); return; }
+ // Tumhara naam update karo
+ groupPlayers[0].name=getMyGroupName();
+ groupCode='GROUP-'+Math.floor(1000+Math.random()*9000);
+ document.getElementById('groupCode').innerText=groupCode;
+ document.getElementById('groupStatus').innerText='Group Taiyar - Code Bhejo';
+ renderGroupList(); updateGroupMessage();
+ speakDidi('Group duel ban gaya! Code hai '+groupCode+'. '+groupPlayers.length+' dost hain. Sabko WhatsApp pe bhejo!');
+ updateLastGroupText();
+};
+window.shareGroupWhatsApp=function(){
+ if(groupPlayers.length<3){ alert('Pehle 3 dost add karo, phir share karo.'); return; }
+ if(groupCode=='GROUP-0000') createGroupDuel();
+ const names=groupPlayers.map(p=>p.name).join(', ');
+ const type=document.getElementById('groupType').selectedOptions[0].text;
+ const bet=document.getElementById('groupBet').value;
+ const msg='👥👑 GROUP DUEL! HEALTHY INDIA!\n\n'+getMyGroupName()+' ne pura group challenge kiya hai!\n\nPlayers: '+names+'\nDuel: '+type+'\nTime: 90 second\nGroup Code: '+groupCode+'\nSaza: '+bet+'\n\nJo sabse jyada karegi wo GROUP QUEEN banegi! 👑\nHaarne wali sab winner ko chai pilayengi ☕\n\nHealthy India kholo, Duel page, Group Duel me code dalo, aur 90 sec me sabko hara do!\nCode: '+groupCode;
+ window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+};
+window.copyGroupText=function(){
+ const txt='Group Duel Code: '+groupCode+' | Players: '+groupPlayers.map(p=>p.name).join(', ')+' | 90 sec Squats War | Healthy India';
+ if(navigator.clipboard) navigator.clipboard.writeText(txt);
+ alert('Copy ho gaya! WhatsApp group me paste kar do:\n'+txt);
+};
+window.startGroupDuel=function(){
+ if(groupPlayers.length<3){ alert('Kam se kam 3 player chahiye. Dost add karo.'); return; }
+ groupPlayers.forEach(p=>p.score=0);
+ groupLeft=90; groupRunning=true; renderGroupArena();
+ document.getElementById('groupTimer').innerText='90';
+ document.getElementById('groupStatus').innerText='🔴 LIVE GROUP WAR';
+ startMusic(); startCamera();
+ window.__mode=document.getElementById('groupType').value;
+ speakDidi('Group duel shuru! 90 second! '+groupPlayers.map(p=>p.name).join(', ')+' sab tez karo! Jo jeetegi wo group queen banegi!');
+ clearInterval(groupTimerInt);
+ let announced30=false, announced10=false;
+ groupTimerInt=setInterval(()=>{
+   groupLeft--; document.getElementById('groupTimer').innerText=groupLeft;
+   if(groupLeft==45 && !announced30){ announced30=true; const s=[...groupPlayers].sort((a,b)=>b.score-a.score); speakDidi('Aadha time ho gaya! Aage hai '+s[0].name+'! Baaki sab tez karo!'); }
+   if(groupLeft==10 && !announced10){ announced10=true; speakDidi('Aakhri 10 second! Poori taakat!'); }
+   if(groupLeft<=0) finishGroupDuel();
+ },1000);
+};
+window.endGroupEarly=function(){ if(groupRunning) finishGroupDuel(); else alert('Pehle Group Duel Start karo.'); };
+function finishGroupDuel(){
+ groupRunning=false; clearInterval(groupTimerInt);
+ document.getElementById('groupStatus').innerText='🏁 GROUP DUEL KHATAM';
+ const sorted=[...groupPlayers].sort((a,b)=>b.score-a.score);
+ const winner=sorted[0];
+ const me=groupPlayers.find(p=>p.isMe);
+ const winnerIsMe=winner.name==me.name;
+ const bet=document.getElementById('groupBet').value;
+ document.getElementById('groupMessage').innerText='🏆 GROUP QUEEN: '+winner.name+' - '+winner.score+' reps! 2nd: '+sorted[1].name+' ('+sorted[1].score+') • 3rd: '+(sorted[2]?sorted[2].name+' ('+sorted[2].score+')':'-')+' | Saza: '+bet;
+ renderGroupArena();
+ document.getElementById('confetti').style.display='block';
+ document.getElementById('confettiText').innerText='👑 GROUP QUEEN: '+winner.name+'! '+winner.score+' REPS!';
+ setTimeout(()=>document.getElementById('confetti').style.display='none',4500);
+ const history=JSON.parse(localStorage.getItem('healthyGroupDuels')||'[]');
+ history.unshift({date:todayKey(),code:groupCode,players:groupPlayers.map(p=>({name:p.name,score:p.score})),winner:winner.name,winnerScore:winner.score,winnerIsMe:winnerIsMe,bet:bet});
+ localStorage.setItem('healthyGroupDuels',JSON.stringify(history.slice(0,20)));
+ if(winnerIsMe){ let p=parseInt(localStorage.getItem('healthyPoints')||'0')+150; localStorage.setItem('healthyPoints',p); speakDidi('Badhai ho! Tum group queen ban gayi! 150 points mil gaye! Baaki sab tumhe chai pilayenge!'); }
+ else { speakDidi('Group queen ban gayi '+winner.name+'! Tum '+sorted.findIndex(s=>s.name==me.name)+1+' number pe aayi. Agli baar tum jeetogi, practice karo!'); }
+ renderGroupLeaderboard(); renderGroupHistory(); updateTopStats(); updateLastGroupText();
+}
+function renderGroupLeaderboard(){
+ const history=JSON.parse(localStorage.getItem('healthyGroupDuels')||'[]');
+ const scores={}; const wins={};
+ history.forEach(h=>{ h.players.forEach(p=>{ scores[p.name]=(scores[p.name]||0)+p.score; }); wins[h.winner]=(wins[h.winner]||0)+1; });
+ const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+ document.getElementById('groupLeaderboard').innerHTML=sorted.length?sorted.map(([name,sc],i)=>`<div class="taskRow" style="background:#fff2f6;color:#111"><span>${i==0?'👑 ':i+1+'. '}<b>${name}</b> • ${wins[name]||0} baar Queen</span><span><b>${sc} total reps</b></span></div>`).join(''):'<p style="color:#888">Abhi koi group duel nahi. Pehla group duel khelo.</p>';
+}
+function renderGroupHistory(){
+ const history=JSON.parse(localStorage.getItem('healthyGroupDuels')||'[]');
+ const txt=history.length?'<b>Group History:</b><br>'+history.slice(0,5).map(h=>'👑 '+h.winner+' ('+h.winnerScore+') • '+h.players.map(p=>p.name+' '+p.score).join(', ')+' • '+h.date).join('<br>'):'Koi group history nahi.';
+ document.getElementById('groupHistory').innerHTML=txt;
+ document.getElementById('groupHistoryProfile').innerHTML=txt;
+}
+window.clearGroupHistory=function(){ localStorage.removeItem('healthyGroupDuels'); renderGroupLeaderboard(); renderGroupHistory(); updateTopStats(); };
+function updateLastGroupText(){
+ const h=JSON.parse(localStorage.getItem('healthyGroupDuels')||'[]');
+ if(h.length){ document.getElementById('lastGroupText').innerText='Queen: '+h[0].winner+' ('+h[0].winnerScore+' reps) • Players: '+h[0].players.map(p=>p.name).join(', ')+' • Code '+h[0].code; }
+}
+initGroupPlayers(); renderGroupLeaderboard(); renderGroupHistory(); updateLastGroupText();
+window.addChallengeRepsGroup=function(){};
+
+// ===== DATA / PAGES =====
+let bodyType='Ectomorph', lastTarget=1900, currentKey='squat';
+function make50(base){ const list=[...base]; const mods=['Slow','Jump','Pulse','Hold 30s','With Bottle','Single Leg','Wide','Narrow','Side','Reverse','Twist','With Bag','On Chair','Wall Support','Tempo 5 Sec','Explosive','Deep','Plyo','Static','Controlled']; let i=0; while(list.length<50){ list.push(base[i%base.length]+' - '+mods[i%mods.length]); i++; } return list.slice(0,50); }
+const DATA={
+ squat:{title:'Squats',icon:'🏋️‍♀️',part:'Legs Hips',vars:make50(['Normal Squats','Sumo Squats','Jump Squats','Pulse Squats','Wall Sit','Goblet Squats','Split Squats','Squat Hold','Side Squats','Curtsy Squats'])},
+ pushup:{title:'Push-Ups',icon:'💪',part:'Arms Chest',vars:make50(['Wall Push-Ups','Knee Push-Ups','Normal Push-Ups','Wide Push-Ups','Diamond Push-Ups','Incline Push-Ups','Decline Push-Ups','Slow Push-Ups','Shoulder Tap','Archer Push-Ups'])},
+ plank:{title:'Plank',icon:'🔥',part:'Belly Core',vars:make50(['Normal Plank','Side Plank Left','Side Plank Right','Shoulder Tap Plank','Hip Dip Plank','Forearm Plank','High Plank','Plank Jacks','Reverse Plank','Leg Lift Plank'])},
+ lunge:{title:'Lunges',icon:'🦵',part:'Legs Thighs',vars:make50(['Forward Lunges','Reverse Lunges','Walking Lunges','Side Lunges','Curtsy Lunges','Jump Lunges','Lunge Hold','Lunge Twist','Lunge Pulse','Static Lunges'])},
+ jacks:{title:'Jumping Jacks',icon:'⚡',part:'Full Body Belly',vars:make50(['Normal Jacks','Low Impact Jacks','Star Jacks','Squat Jacks','Cross Jacks','Front Jacks','Plank Jacks','Seal Jacks','Half Jacks','Power Jacks'])},
+ bridge:{title:'Glute Bridge',icon:'🍑',part:'Hips Glutes',vars:make50(['Normal Bridge','Single Leg Bridge','Bridge Hold','Bridge Pulse','Bridge March','Wide Bridge','Frog Bridge','Bridge Kick','Elevated Bridge','Bridge Walkout'])},
+ crunch:{title:'Crunches',icon:'✨',part:'Belly Abs',vars:make50(['Normal Crunches','Reverse Crunches','Bicycle Crunches','Side Crunches','Leg Raise','Toe Touch','Russian Twist','V-Ups','Heel Touch','Dead Bug'])},
+ yoga:{title:'Yoga Stretch',icon:'🧘',part:'Full Body Back',vars:make50(['Surya Namaskar','Cat Cow','Child Pose','Cobra Pose','Downward Dog','Butterfly Stretch','Seated Twist','Warrior Pose','Tree Pose','Shoulder Stretch'])}
+};
+function showVars(key){ currentKey=key; const d=DATA[key]; document.getElementById('varTitle').innerText=d.icon+' '+d.title+' - 50 Variations'; document.getElementById('varList').innerHTML=d.vars.map((v,i)=>`<div class="varcard" onclick="selectVar(this,'${d.title}','${v}',${i+1})"><div class="dot">${i+1}</div><div><b>${v}</b><br><small>${d.part} • ${i+1}/50 • ${30+i} kcal</small></div></div>`).join(''); }
+function selectVar(el,title,varName,num){document.querySelectorAll('.varcard').forEach(c=>c.classList.remove('active')); el.classList.add('active'); document.getElementById('ctrlTitle').innerText=title+' - '+varName; speakDidi(varName+' select ho gaya.'); setStep(1);}
+function setBody(t,el){bodyType=t; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); document.getElementById('bodyInfo').innerHTML=t=='Ectomorph'?'🦋 <b>Ectomorph:</b> Jyada khana, 3 din heavy workout.':t=='Mesomorph'?'💪 <b>Mesomorph:</b> Mix workout, balance diet.':'🌸 <b>Endomorph:</b> Roz cardio 30 min, carbs kam.';}
+showVars('squat');
+function showPage(id,btn){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.navlinks button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+function doSearch(q){ q=(q||'').toLowerCase().trim(); showPage('searchPage',document.querySelectorAll('.navlinks button')[3]); let html='',c=0; Object.keys(DATA).forEach(k=>{ const d=DATA[k]; d.vars.forEach((v,i)=>{ if(!q||v.toLowerCase().includes(q)||d.title.toLowerCase().includes(q)||d.part.toLowerCase().includes(q)){ c++; html+=`<div class="varcard" onclick="goToExercise('${k}','${v}')"><div class="dot">${d.icon}</div><div><b>${v}</b><br><small>${d.part} • ${i+1}/50</small></div></div>`; } }); }); document.getElementById('searchResults').innerHTML='<p><b>'+c+' mile</b></p>'+html; }
+function goToExercise(key,varName){ showPage('home',document.querySelectorAll('.navlinks button')[0]); window.playEx(key,null); document.getElementById('ctrlTitle').innerText=DATA[key].title+' - '+varName; }
+function calcAll(){ let W=+document.getElementById('w').value,H=+document.getElementById('h').value,A=+document.getElementById('a').value,goal=document.getElementById('goal').value; let bmi=W/((H/100)*(H/100)); let bmr=10*W+6.25*H-5*A-161; let tdee=bmr*1.4; let target=goal=='loss'?tdee-500:goal=='gain'?tdee+400:tdee; lastTarget=target; document.getElementById('res').innerHTML=`BMI: ${bmi.toFixed(1)}<br>BMR: ${bmr.toFixed(0)} | TDEE: ${tdee.toFixed(0)}<br><b style="color:#ff8fb5">🎯 Daily: ${target.toFixed(0)} kcal</b>`; }
+calcAll();
+function makePlan(){ const B=['Poha + Egg','Oats + Doodh','Roti + Paneer','Idli + Sambar','Besan Chilla','Moong Cheela','Upma','Paratha + Dahi']; const L=['Roti + Dal + Sabzi','Chawal + Rajma','Roti + Chole','Khichdi','Bajra Roti + Saag','Chawal + Paneer','Roti + Mix Veg','Lemon Rice']; const S=['Roasted Chana','Fruit Bowl','Sprouts','Makhana','Buttermilk','Paneer Cubes','Banana Shake','Peanut + Gud']; const D=['Roti + Dal','Soup + Salad','Khichdi + Dahi','Roti + Lauki','Chawal Kam + Dal','Soup + Roti','Moong Dal + Roti','Paneer Tikka']; const E=['Squats','Push-Ups','Plank','Lunges','Jumping Jacks','Bridge','Crunches','Yoga']; let rows=''; for(let d=1;d<=30;d++){ let exp=d<=7?'Dard hoga, slow karo.':d<=14?'Stamina badhega.':d<=21?'Shape dikhegi.':'30 din done! Photo compare karo 📸'; rows+=`<tr><td><b>Day ${d}</b></td><td>${B[d%B.length]}</td><td>${L[d%L.length]}</td><td>${S[d%S.length]}</td><td>${D[d%D.length]}</td><td>${E[d%E.length]}</td><td>${exp}</td></tr>`; } document.getElementById('planBody').innerHTML=rows; }
+function saveProfile(){ const n=document.getElementById('pName').value||'Healthy Didi'; const data={name:n,age:document.getElementById('pAge').value,weight:document.getElementById('pWeight').value,height:document.getElementById('pHeight').value,city:document.getElementById('pCity').value,goal:document.getElementById('pGoal').value}; localStorage.setItem('healthyIndiaProfile',JSON.stringify(data)); loadProfile(); initGroupPlayers(); speakDidi('Profile save ho gayi, '+n); }
+function loadProfile(){ try{ const d=JSON.parse(localStorage.getItem('healthyIndiaProfile')); if(!d) return; document.getElementById('profileNameShow').innerText=d.name; document.getElementById('helloName').innerText=d.name.split(' ')[0]; document.getElementById('avatarLetter').innerText=d.name.charAt(0).toUpperCase(); document.getElementById('profileSubShow').innerText=(d.city||'India')+' • '+d.weight+'kg • '+d.goal; document.getElementById('goalShow').innerText=d.goal; document.getElementById('myName').value=d.name.split(' ')[0]; document.getElementById('groupMyName').value=d.name.split(' ')[0]; document.getElementById('progressBox').innerHTML=`<b>${d.name}</b><br>Weight: ${d.weight}kg • Height: ${d.height}cm<br>Goal: ${d.goal}<br><span class="tag">Saved ✅</span>`; }catch(e){} }
+loadProfile();
+
+// ===== CAMERA =====
+let repCount=0, score=0, wasDown=false, camExercise='squat', poseObj=null, cameraObj=null, camRunning=false;
+const videoEl=document.getElementById('camVideo');
+const canvasEl=document.getElementById('camCanvas');
+const ctx=canvasEl.getContext('2d');
+function angle(a,b,c){ const ab={x:a.x-b.x,y:a.y-b.y}, cb={x:c.x-b.x,y:c.y-b.y}; const dot=ab.x*cb.x+ab.y*cb.y; const mag=Math.sqrt(ab.x*ab.x+ab.y*ab.y)*Math.sqrt(cb.x*cb.x+cb.y*cb.y); return Math.acos(Math.max(-1,Math.min(1,dot/mag)))*180/Math.PI; }
+function onPoseResults(results){
+ canvasEl.width=videoEl.videoWidth||640; canvasEl.height=videoEl.videoHeight||480;
+ ctx.save(); ctx.clearRect(0,0,canvasEl.width,canvasEl.height);
+ ctx.drawImage(results.image,0,0,canvasEl.width,canvasEl.height);
+ if(results.poseLandmarks){
+   document.getElementById('camStatus').innerText='✅ BODY MIL GAYI';
+   const lm=results.poseLandmarks;
+   const CONN=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[0,11],[0,12],[27,29],[28,30],[29,31],[30,32]];
+   ctx.lineWidth=5; ctx.strokeStyle='#00ff66'; ctx.lineCap='round';
+   CONN.forEach(([i,j])=>{ ctx.beginPath(); ctx.moveTo(lm[i].x*canvasEl.width, lm[i].y*canvasEl.height); ctx.lineTo(lm[j].x*canvasEl.width, lm[j].y*canvasEl.height); ctx.stroke(); });
+   lm.forEach((p,idx)=>{ if(p.visibility<0.5) return; ctx.beginPath(); ctx.arc(p.x*canvasEl.width,p.y*canvasEl.height, idx==0?12:8,0,Math.PI*2); ctx.fillStyle=idx==0?'#ff0000':'#ffcc00'; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke(); });
+   const kneeAngle=Math.round(angle(lm[23],lm[25],lm[27]));
+   const didiDeg=Math.round(180-window.__poseVal*90);
+   const match=Math.max(0,100-Math.round(Math.abs(didiDeg-kneeAngle)*1.2));
+   document.getElementById('camAngle').innerText='Aapka: '+kneeAngle+'° | Didi: '+didiDeg+'° | Match: '+match+'%';
+   document.getElementById('matchText').innerText='Match: '+match+'% • Score: '+score;
+   if(camExercise=='squat'){
+     if(kneeAngle<110 && !wasDown) wasDown=true;
+     if(kneeAngle>160 && wasDown){
+       wasDown=false; repCount++; score+=10;
+       document.getElementById('repCount').innerText=repCount; document.getElementById('scoreShow').innerText=score; document.getElementById('profileReps').innerText=repCount;
+       addChallengeReps('squat',1);
+       if(duelRunning){ duelMe++; updateDuelUI(); }
+       if(groupRunning){ const meIdx=groupPlayers.findIndex(p=>p.isMe); if(meIdx>=0){ groupPlayers[meIdx].score++; renderGroupArena(); updateGroupMessage(); } }
+       speakDidi('Shabash! Rep '+repCount+(groupRunning?', group me tum '+groupPlayers.find(p=>p.isMe).score+' pe ho!':''));
+       if(navigator.vibrate) navigator.vibrate(80);
+     }
+   }
+   if(camExercise=='jacks'){
+     const handUp=lm[15].y<lm[11].y && lm[16].y<lm[12].y;
+     if(handUp && !wasDown){ wasDown=true; repCount++; score+=10; document.getElementById('repCount').innerText=repCount; addChallengeReps('jacks',1); if(groupRunning){ const meIdx=groupPlayers.findIndex(p=>p.isMe); if(meIdx>=0){ groupPlayers[meIdx].score++; renderGroupArena(); } } }
+     if(!handUp) wasDown=false;
+   }
+ }
+ ctx.restore();
+}
+window.startCamera=async function(){
+ try{
+  if(camRunning) return;
+  if(!poseObj){ poseObj=new Pose({locateFile:(f)=>'https://cdn.jsdelivr.net/npm/@mediapipe/pose/'+f}); poseObj.setOptions({modelComplexity:1,smoothLandmarks:true,minDetectionConfidence:0.5,minTrackingConfidence:0.5}); poseObj.onResults(onPoseResults); }
+  cameraObj=new Camera(videoEl,{onFrame:async()=>{ await poseObj.send({image:videoEl}); },width:640,height:480});
+  cameraObj.start(); camRunning=true;
+ }catch(e){ document.getElementById('camFeedback').innerText='❌ Camera nahi khula. Chrome me Allow karo.'; }
+};
+window.startCompare=function(){ window.__auto=true; window.__slow=false; window.__mode=camExercise; startCamera(); startMusic(); speakDidi('Compare mode! Mere sath karo!'); };
+window.changeCompareEx=function(v){ camExercise=v; window.__mode=v; };
+window.stopCamera=function(){ if(cameraObj) cameraObj.stop(); camRunning=false; };
+window.resetReps=function(){ repCount=0; score=0; document.getElementById('repCount').innerText='0'; document.getElementById('scoreShow').innerText='0'; };
+</script>
+</body>
+</html>
